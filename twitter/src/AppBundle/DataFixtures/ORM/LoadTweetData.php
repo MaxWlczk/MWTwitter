@@ -1,9 +1,12 @@
 <?php
+
 namespace AppBundle\DataFixtures\ORM;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\DataFixtures\AbstractFixture;
+
 use AppBundle\Entity\Tweet;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+
 class LoadTweetData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
@@ -17,7 +20,7 @@ class LoadTweetData extends AbstractFixture implements OrderedFixtureInterface
             'arsenal 2 - 10 bayern',
             'ouille',
             'moche',
-            'Timothée le castor'
+            'Timothée le castor',
         ];
         foreach ($messages as $i => $message) {
             $tweet = new Tweet();
@@ -27,6 +30,7 @@ class LoadTweetData extends AbstractFixture implements OrderedFixtureInterface
         }
         $manager->flush();
     }
+
     public function getOrder()
     {
         return 10;
