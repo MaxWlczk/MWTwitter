@@ -10,4 +10,25 @@ namespace AppBundle\Repository;
  */
 class tweetRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * Retourne les 5 derniers tweets ajoutes en bdd
+     *
+     * @param int $maxResults
+     *
+     * @return Tweet[]
+     */
+
+    public function getLastTweets($maxResults = 5){
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+
 }
