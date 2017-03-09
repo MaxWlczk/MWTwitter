@@ -1,0 +1,51 @@
+{%  extends "::base.html.twig" %}
+
+{% block title 'Ajout d\'un tweeet' %}
+
+{% block header %}
+    <h1>Ajout d'un tweet</h1>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
+
+    {# Génération du label + error + widget pour un champ. #}
+    {#{{ form_row(form.title) }}#}
+
+    {# Génération manuelle et éclatée : #}
+    <div class="form-group">
+        {# Génération du label. #}
+        {{ form_label(form.message, "Message", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+        {# Affichage des erreurs pour ce champ précis. #}
+        {{ form_errors(form.message) }}
+
+        <div class="col-sm-8">
+            {# Génération de l'input. #}
+            {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="col-sm-2">
+            {# bouton submit du fomulaire #}
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </div>
+    </div>
+
+    {# Génération automatique des champs pas encore écrits.
+     Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+     et tous les champs cachés (type « hidden »). #}
+    {{ form_rest(form) }}
+
+    {# Fermeture de la balise <form> du formulaire HTML #}
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+    <a href="{{ path('app_twig_test') }}">Lien vers la page Twig Test</a>
+    <a href="{{ path('app_tweet_list') }}">Lien vers la page d'accueil</a>
+{% endblock %}

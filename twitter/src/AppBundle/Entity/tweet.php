@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * tweet.
@@ -25,6 +26,14 @@ class tweet
      * @var string
      *
      * @ORM\Column(name="message", type="string", length=160)
+     *
+     * @Assert\Length(
+     *      max = 160,
+     *      maxMessage = "Trop de caractères"
+     * )
+     *
+     * /**
+     * @Assert\NotBlank()
      */
     private $message;
 
@@ -32,6 +41,8 @@ class tweet
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
+     *
+     * @Assert\DateTime()
      */
     private $createdAt;
 
