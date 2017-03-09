@@ -6,6 +6,7 @@ use AppBundle\Entity\tweet;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TweetController extends Controller
 {
@@ -19,5 +20,23 @@ class TweetController extends Controller
         return $this->render(':tweet:list.html.twig', [
             'tweets' => $tweets,
         ]);
+    }
+
+
+    /**
+     * @Route("/tweet/{id}", name="app_tweet_view")
+     */
+    public function viewAction($id){
+
+        $tweet = $this->getDoctrine()->getRepository(Tweet::class)->getTweet($id);
+
+        if($tweet){
+            return $this->render(':tweet:view.html.twig', [
+                'tweet' => $tweet,
+            ]);
+        }else{
+            throw new NotFoundHttpException("Page not found");
+        }
+
     }
 }

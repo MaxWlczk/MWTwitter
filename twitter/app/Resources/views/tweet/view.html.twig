@@ -1,21 +1,18 @@
 {%  extends "::base.html.twig" %}
 
-{% block title 'Liste derniers tweets' %}
+{% block title 'Détails d\'un tweeet' %}
 
 {% block header %}
-    <h1>Liste des tweets</h1>
+    <h1>Détails d'un tweet</h1>
 {% endblock %}
 
 {% block content %}
-    {% for index, tweet in tweets %}
         <div class="panel panel-default">
             <div class="panel-body">
-                <a href="{{ path('app_tweet_view', {id:tweet.id}) }}">{{ tweet.message }}</a>
+                <b>{{ tweet.message }}</b><br>
+                {{ tweet.createdAt|date('Y-m-d') }}
             </div>
         </div>
-    {% else %}
-        Aucun tweet
-    {% endfor %}
 {% endblock %}
 
 {% block footer %}
