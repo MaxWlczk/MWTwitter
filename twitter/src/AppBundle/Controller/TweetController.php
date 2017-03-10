@@ -10,12 +10,23 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TweetController extends Controller
 {
+    private function getManager()
+    {
+        return $this->container->get('app.tweet_manager');
+    }
+
+    private function getMessenger()
+    {
+        return $this->container->get('app.email_messenger');
+    }
+
     /**
      * @Route("/", name="app_tweet_list")
      */
     public function listAction(Request $request)
     {
-        $tweets = $this->getDoctrine()->getRepository(Tweet::class)->getLastTweets($this->getParameter('app_tweet_nb_last', 10));
+        $tweetManager = $this->getManager();
+        $tweets = $tweetManager->getLast();
 
         return $this->render(':tweet:list.html.twig', [
             'tweets' => $tweets,
@@ -27,23 +38,23 @@ class TweetController extends Controller
      */
     public function addAction(Request $request)
     {
-        $tweet = new tweet();
-        $form = $this->createForm(tweetType::class, $tweet); // retourne un objet Form
+        $tweetManager = $this->getManager();
+        $newTweet = $tweetManager->create();
+        $form = $this->createForm(tweetType::class, $newTweet); // retourne un objet Form
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // formulaire valide
             // on modifie la base de données
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($tweet);
-            $em->flush();
-
+            $tweetManager->save($newTweet);
             $this->addFlash(
                 'success',
               'votre tweet a été créé'
             );
+            $emailManager = $this->getMessenger();
+            $emailManager->sendTweetCreated($newTweet);
             // On redirige vers la page de visualisation du tweet nouvellement créée
-            return $this->redirectToRoute('app_tweet_view', ['id' => $tweet->getId()]);
+            return $this->redirectToRoute('app_tweet_view', ['id' => $newTweet->getId()]);
         }
 
         return $this->render(':tweet:new.html.twig', [
