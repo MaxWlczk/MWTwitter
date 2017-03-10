@@ -16,15 +16,15 @@ class tweetType extends AbstractType
     {
         $builder->add('message', TextareaType::class);
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\tweet'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\tweet',
+        ]);
     }
 
     /**
@@ -34,6 +34,4 @@ class tweetType extends AbstractType
     {
         return 'appbundle_tweet';
     }
-
-
 }

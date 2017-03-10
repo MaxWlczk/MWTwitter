@@ -27,7 +27,8 @@ class tweetRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-    public function getTweet($id){
+    public function getTweet($id)
+    {
         return $this->createQueryBuilder('t')
             ->select('t')
             ->where('t.id = :id')
